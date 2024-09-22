@@ -1,0 +1,52 @@
+---
+- name: install packages
+  ansible.builtin.package:
+    name: '{{ libvirt_packages }}'
+    state: present
+  become: yes
+  tags:
+  - libvirt
+
+- name: add user to groups
+  ansible.builtin.user:
+    name: '{{ username }}'
+    groups: libvirt
+    append: yes
+  become: yes
+  tags:
+  - libvirt
+
+- name: define pool
+  community.libvirt.virt_pool:
+    name: example
+    command: define
+    xml: '{{ lookup("file", "files/pool.xml") }}'
+  register: libvirt_pool
+  tags:
+  - libvirt
+
+- name: build pool
+  community.libvirt.virt_pool:
+    name: example
+    command: build
+  when: libvirt_pool is changed
+  tags:
+  - libvirt
+
+- name: start and autostart 
+  community.libvirt.virt_pool:
+    name: example
+    state: active
+    autostart: true
+  tags:
+  - libvirt
+
+- name: define network
+  community.libvirt.virt_network:
+    name: example
+    command: define
+    xml: '{{ lookup("file", "files/pool.xml") }}'
+  register: libvirt_pool
+  tags:
+  - libvirt
+

@@ -1,0 +1,23 @@
+---
+devel_packages:
+- autoconf
+- automake
+- bzip2-devel
+- expat-devel
+- gcc
+- gcc-c++
+- gdbm-devel
+- libxml2-devel
+- libxslt-devel
+- make
+- mock
+- ncurses-devel
+- openldap-devel
+- openssl-devel
+- python3-devel
+- python-devel
+- readline-devel
+- rpmdevtools
+- sqlite-devel
+- xz-libs
+- zlib-devel

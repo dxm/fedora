@@ -1,0 +1,22 @@
+---
+desktop_packages:
+- brasero 
+- firefox
+- gnome-epub-thumbnailer
+- gnome-extensions-app
+- gnome-tweak-tool
+- gstreamer1-plugin-openh264
+- mozilla-openh264 
+- mozilla-ublock-origin
+- python3-psutil
+- xfreerdp
+
+desktop_gsettings:
+- key: /org/gnome/desktop/interface/clock-format
+  value: "'12h'"
+- key: /org/gnome/desktop/interface/clock-show-date
+  value: "true"
+- key: /org/gnome/desktop/wm/keybindings/switch-windows
+  value: "['<Alt>Tab']"
+- key: /org/gnome/mutter/experimental-features
+  value: "['scale-monitor-framebuffer']"

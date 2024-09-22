@@ -1,0 +1,5 @@
+---
+libvirt_packages:
+- '@virtualization'
+- python3-libvirt
+- python3-lxml

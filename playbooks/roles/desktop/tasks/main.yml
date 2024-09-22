@@ -1,0 +1,18 @@
+---
+- name: install packages
+  ansible.builtin.package:
+    name: '{{ desktop_packages }}'
+    state: present
+  become: yes
+  tags:
+  - desktop
+
+# NOTE: python3-psutil is needed for this module.
+- name: update gsettings
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  loop: "{{ desktop_gsettings }}"
+  tags:
+  - desktop

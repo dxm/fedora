@@ -1,0 +1,61 @@
+---
+- name: turn off systemd-resolved
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: stopped
+    enabled: no
+  become: yes
+  tags:
+  - network
+
+- name: check if resolv.conf is symlink (systemd)
+  ansible.builtin.stat:
+    path: /etc/resolv.conf
+  register: st
+  become: yes
+  tags:
+  - network
+
+- name: remove resolv.conf if symlink (systemd)
+  ansible.builtin.file:
+    path: /etc/resolv.conf
+    state: absent
+  when: st.stat.islnk
+  register: resolv
+  become: yes
+  tags:
+  - network
+
+- name: enable dnsmasq for NetworkManager
+  ansible.builtin.copy:
+    dest: /etc/NetworkManager/conf.d/dns.conf
+    owner: root
+    group: root
+    mode: 0644
+    content: |
+      [main]
+      dns=dnsmasq
+  register: dnsmasq
+  become: yes
+  tags:
+  - network
+
+- name: restart network manager
+  ansible.builtin.service:
+    name: NetworkManager
+    state: restarted
+  when: resolv.changed or dnsmasq.changed
+  register: networkmanager
+  become: yes
+  tags:
+  - network
+
+# NOTE: A race condition exists where symlink is gone and dns fails on
+# next tasks. We need to pause here if network has changed.
+
+- name: pause if networkmanager is restarted
+  ansible.builtin.pause:
+    seconds: 10
+  when: networkmanager.changed
+  tags:
+  - network

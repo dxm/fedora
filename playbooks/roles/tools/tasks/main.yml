@@ -1,0 +1,8 @@
+---
+- name: install packages
+  ansible.builtin.package:
+    name: '{{ tools_packages }}'
+    state: present
+  become: yes
+  tags:
+  - tools
