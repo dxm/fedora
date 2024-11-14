@@ -8,6 +8,7 @@ desktop_packages:
 - gstreamer1-plugin-openh264
 - mozilla-openh264 
 - mozilla-ublock-origin
+# python3-psutil is needed for community.general.dconf
 - python3-psutil
 - xfreerdp
 

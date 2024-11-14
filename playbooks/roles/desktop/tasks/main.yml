@@ -7,7 +7,6 @@
   tags:
   - desktop
 
-# NOTE: python3-psutil is needed for this module.
 - name: update gsettings
   community.general.dconf:
     key: "{{ item.key }}"
